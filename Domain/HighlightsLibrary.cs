@@ -26,5 +26,10 @@ namespace Domain
                 .Select(x => new Tuple<string, int>(x.Key, x.Count()))
                 .OrderBy(x => x.Item1);
         }
+
+        public IEnumerable<Highlight> GetHighlightsForBookTitle(string title)
+        {
+            return _highlights.Where(x => x.Book == title).OrderBy(x => x.Page);
+        }
     }
 }

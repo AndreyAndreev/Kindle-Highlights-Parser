@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Domain;
 
 namespace UI.Wpf
 {
@@ -23,6 +24,34 @@ namespace UI.Wpf
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private HighlightsLibrary library;
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            var parser = new Parser();
+            parser.ParseFile(@"C:\My Clippings.txt");
+
+            library = new HighlightsLibrary(parser.GetHighlights());
+
+            foreach (var bookTitleWithCount in library.GetBookTitlesWithHighlightCounts())
+            {
+                var title = $"{bookTitleWithCount.Item1} – ({bookTitleWithCount.Item2} highlights)";
+
+                Books.Items.Add(new Label() {Content = title});
+            }
+        }
+
+        private void Books_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var titles = library.GetBookTitles();
+
+            var selectedTitle = titles.ElementAt(Books.SelectedIndex);
+
+            var highlights = library.GetHighlightsForBookTitle(selectedTitle);
+
+            Highlights.Text = string.Join("\n\n\n", highlights.Select(x => x.Text));
         }
     }
 }
