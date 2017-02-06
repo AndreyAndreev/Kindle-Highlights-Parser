@@ -20,6 +20,7 @@
         <StackPanel Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Name="Load" Click="Load_Click">Load</Button>
             <Label Name="FileName"></Label>
+            <Button Name="Export" Click="Export_Click">Export</Button>
         </StackPanel>
 
         <ListBox Grid.Row="1" Grid.Column="0" Name="Books" SelectionChanged="Books_SelectionChanged" >       
